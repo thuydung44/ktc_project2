@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Boards</title>
+</head>
+<body>
+<ul>
+    <li th:each="board : ${boards}">
+        <a th:href="@{/boards/{boardId} (boardId=${board.id})}" th:text="${board.name}">Board Name</a>
+    </li>
+</ul>
+
+<a href="/articles/create">Write a article</a>
+<ul>
+    <li th:each="article: ${articles}">
+        <a th:href="@{/articles/{articleId}(articleId=${article.Id})}">[[${article.id}]]. [[${article.title}]]</a>
+    </li>
+</ul>
+</div>
+</body>
+</html>

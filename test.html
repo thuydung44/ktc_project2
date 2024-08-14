@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boards</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        body {
+            padding-top: 56px; /* Adjust if you add a navbar */
+        }
+    </style>
+</head>
+<body>
+    <!-- Optional Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <a class="navbar-brand" href="#">MyApp</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/boards">Boards</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/articles/create">Write an Article</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <!-- Displaying boards -->
+        <h1 class="mb-4">Boards</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <ul class="list-group">
+                    <li class="list-group-item" th:each="board : ${boards}">
+                        <a class="btn btn-primary w-100" th:href="@{/boards/{boardId}(boardId=${board.id})}" th:text="${board.name}">Board Name</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Link to create a new article -->
+        <div class="mt-4">
+            <a class="btn btn-success" href="/articles/create">Write an Article</a>
+        </div>
+
+        <!-- Displaying articles -->
+        <h2 class="mt-4">Articles</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <ul class="list-group">
+                    <li class="list-group-item" th:each="article : ${articles}">
+                        <a class="link-secondary" th:href="@{/articles/{articleId}(articleId=${article.id})}">
+                            [[${article.id}]]. [[${article.title}]]
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
