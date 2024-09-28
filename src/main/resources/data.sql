@@ -20,8 +20,8 @@ VALUES
 ('Seventeen','Boy group with 13 members','1234',3),
 ('My dream','I want to work at a IT company','1234',2),
 ('My wish', 'I want to be a good person','1234',4),
-('Reading book', 'The more you read book, the more idea you have','1234',1);
+('Reading book', 'The more you read book, the more idea you have','1234',1),
 ('About my lover', 'I dont have lover so i want to have the fast it is','1234',3),
-('Seventeen','Boy group with 13 members','1234',3),
-('My school','I studyed Economics at Ajou University','1234',1),
-('My wish', 'I want to be a good person and a good daughter ','1234',4),
+('Seventeen and me','Boy group with 14 members','1234',4),
+('My school','I studyed Economics at Ajou University','1234',3),
+('My wish', 'I want to be a good person and a good daughter ','1234',2);
