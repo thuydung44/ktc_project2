@@ -8,15 +8,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("articles/{articleId}/comments")
+@RequestMapping("/articles/{articleId}/comments")
 public class CommentController {
     private final CommentService commentService;
+
     public CommentController(CommentService commentService) {
         this.commentService = commentService;
     }
 
     // Create
-    @PostMapping("create")
+    @PostMapping
     public String create(
             @PathVariable("articleId")
             Long articleId,
@@ -24,28 +25,26 @@ public class CommentController {
             String content,
             @RequestParam("password")
             String password
-    ){
+    ) {
         commentService.create(articleId, content, password);
         return String.format("redirect:/articles/%d", articleId);
     }
-    //ReadOne
-    @PostMapping("{commentId}")
-    public String readOne(
-            @PathVariable("commentId")
-            Long commentId,
-            Model model
-    ) {
-        model.addAttribute("comment", commentService.readOne(commentId));
-        return "articles/read.html";
-    }
+
+
     // Delete
     @PostMapping("{commentId}/delete")
     public String delete(
+            @PathVariable("articleId")
+            Long articleId,
             @PathVariable("commentId")
-            Long commentId
+            Long commentId,
+            @RequestParam("password")
+            String password,
+            Model model
+
     ) {
-        commentService.delete(commentId);
-        return "redirect:/comments";
+        commentService.delete(commentId, password);
+        return String.format("redirect:/articles/%d", articleId);
     }
 
 }

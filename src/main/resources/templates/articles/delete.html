@@ -9,7 +9,7 @@
 <p>Do you want to delete?</p>
 <form th:action="@{/articles/{id}/delete (id=${article.id})}" method="post">
     <label for="password-input">Password:</label>
-    <input type="text" name="inputPassword" id="password-input">
+    <input type="password" name="inputPassword" id="password-input">
     <input type="submit" value="Delete">
 </form>
 

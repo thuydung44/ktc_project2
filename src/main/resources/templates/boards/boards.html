@@ -2,21 +2,45 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Boards</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Boards</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<ul>
-    <li th:each="board : ${boards}">
-        <a th:href="@{/boards/{boardId} (boardId=${board.id})}" th:text="${board.name}">Board Name</a>
-    </li>
-</ul>
+<a href="/boards">전체 게시판</a>
+      <a th:each="board : ${boards}"
+         th:href="@{/boards/{boardId}(boardId=${board.id})}"
+         th:text="${board.name}"></a>
+<div class="container mt-4">
+    <h1 class="mb-4">전체 게시판</h1>
+    <a href="/articles/create" class="btn btn-primary mb-4">Write an Article</a></div>
+<h2 th:if="${articles.isEmpty()}"> No Articles</h2>
+<table th:unless="${articles.isEmpty()}" class="table">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Title</th>
+        <th scope="col">Board</th>
+    </tr>
+    <tbody>
+<tr th:each="article : ${articles}">
+    <th scope="col" th:text="${article.id}"></th>
+    <th scope="col">
+        <a th:href="@{/articles/{articleId}(articleId=${article.id})}" th:text="${article.title}"></a>
+    </th>
+    <th scope="col" th:text="${article.board.name}"></th>
 
-<a href="/articles/create">Write a article</a>
-<ul>
-    <li th:each="article: ${articles}">
-        <a th:href="@{/articles/{articleId}(articleId=${article.Id})}">[[${article.id}]]. [[${article.title}]]</a>
-    </li>
-</ul>
-</div>
+</tr>
+
+</tbody>
+    </thead>
+</table>
+
+
+<!-- Bootstrap JS and dependencies (Optional) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

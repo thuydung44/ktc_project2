@@ -39,14 +39,16 @@ public class CommentService {
             Long commentId
     ) {
         return commentRepository.findById(commentId).orElseThrow();
-
-
     }
+
 
     // delete
-    public void delete(Long commentId){
-        commentRepository.deleteById(commentId);
+    public void delete(Long commentId, String password){
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow();
+        if (comment.getPassword().equals(password)) {
+            commentRepository.delete(comment);
+        }
+        // TODO else에서 throw
     }
-
-
 }

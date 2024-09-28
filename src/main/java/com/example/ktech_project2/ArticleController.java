@@ -1,15 +1,20 @@
 package com.example.ktech_project2;
 
+import com.example.ktech_project2.model.Article;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collections;
+import java.util.List;
 
 @Controller
 @RequestMapping("/articles")
 public class ArticleController {
     private final ArticleService articleService;
     private final BoardService boardService;
-    public ArticleController(ArticleService articleService, BoardService boardService ) {
+
+    public ArticleController(ArticleService articleService, BoardService boardService) {
         this.articleService = articleService;
         this.boardService = boardService;
     }
@@ -20,6 +25,7 @@ public class ArticleController {
         model.addAttribute("boards", boardService.readAll());
         return "articles/create.html";
     }
+
     @PostMapping("create")
     public String create(
             @RequestParam("boardId")
@@ -34,22 +40,22 @@ public class ArticleController {
         Long articleId = articleService.create(title, content, password, boardId).getId();
         return String.format("redirect:/articles/%d", articleId);
     }
-    // ReadAll
-    @GetMapping // articles
-    public String readAll(Model model) {
-        model.addAttribute("articles", articleService.readAll());
 
-        return "articles/home.html";
-    }
 
     // ReadOne
     @GetMapping("{articleId}")
     public String readOne(
             @PathVariable("articleId")
             Long articleId,
+            @RequestParam(value = "board", defaultValue = "0")
+            Long boardId,
             Model model
-    ){
+    ) {
         model.addAttribute("article", articleService.readOne(articleId));
+        model.addAttribute("board", boardId);
+        model.addAttribute("before", articleService.getFront(boardId, articleId));
+        model.addAttribute("after", articleService.getBack(boardId, articleId));
+
         return "articles/read.html";
 
 
@@ -87,7 +93,7 @@ public class ArticleController {
             return "articles/password.html";
         }
         articleService.update(articleId, title, content);
-        return String.format("redirect:/articles/%d",articleId);
+        return String.format("redirect:/articles/%d", articleId);
 
     }
 
@@ -118,10 +124,10 @@ public class ArticleController {
             return "articles/password.html";
         }
         articleService.delete(articleId);
-        return "redirect:/articles";
+        return "redirect:/boards";
     }
 
-    }
+}
 
 
 

@@ -68,7 +68,7 @@ public class ArticleService {
             String inputPass
     ) {
         Article article = articleRepository.findById(id).orElseThrow();
-        if(article == null || !article.getPassword().equals(inputPass)) {
+        if (article == null || !article.getPassword().equals(inputPass)) {
             return false;
         }
         return true;
@@ -76,8 +76,33 @@ public class ArticleService {
 
     // Delete
     public void delete(Long articleId) {
+
         articleRepository.deleteById(articleId);
     }
+
+    public Long getFront(Long boardId, Long articleId) {
+        Optional<Article> target;
+        if (boardId == 0L) {
+            target = articleRepository.findFirstByIdAfter(articleId);
+        } else {
+            target = articleRepository.findFirstByBoardIdAndIdAfter(boardId, articleId);
+        }
+        return target.map(Article::getId).orElse(null);
+    }
+
+    public Long getBack(Long boardId, Long articleId) {
+        Optional<Article> target;
+        if (boardId == 0) {
+            target = articleRepository.findFirstByIdBeforeOrderByIdDesc(articleId);
+        } else {
+            target = articleRepository.findFirstByBoardIdAndIdBeforeOrderByIdDesc(boardId, articleId);
+        }
+        return target.map(Article::getId).orElse(null);
+    }
+
+
+
+
 
 
 

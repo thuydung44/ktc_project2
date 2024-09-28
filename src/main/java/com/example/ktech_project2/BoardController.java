@@ -1,5 +1,6 @@
 package com.example.ktech_project2;
 
+import com.example.ktech_project2.model.Article;
 import com.example.ktech_project2.model.Board;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -25,9 +28,13 @@ public class BoardController {
     // ReadAll
     @GetMapping
     public String readAll(Model model) {
+        List<Article> articles = articleService.readAll();
+        Collections.reverse(articles);
 
         model.addAttribute("boards", boardservice.readAll());
-        model.addAttribute("articles", articleService.readAll());
+        model.addAttribute("selected",null);
+        model.addAttribute("articles", articles);
+
         return "boards/boards.html";
     }
 
@@ -35,12 +42,12 @@ public class BoardController {
     public String readOne(
             @PathVariable("boardId")
             Long boardId,
-
-            Model model,
-            Model model1
+            Model model
     ) {
+        List<Article> articles = boardservice.readOne(boardId).getArticles();
         model.addAttribute("board", boardservice.readOne(boardId));
-        model1.addAttribute("articles", boardservice.readOne(boardId).getArticles());
+        model.addAttribute("articles", boardservice.readOne(boardId).getArticles());
+        Collections.reverse(articles);
         return "boards/read.html";
     }
 
