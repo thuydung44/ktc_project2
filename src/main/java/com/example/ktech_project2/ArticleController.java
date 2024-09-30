@@ -127,6 +127,36 @@ public class ArticleController {
         return "redirect:/boards";
     }
 
+    @GetMapping("search")
+    public String search(
+            @RequestParam("q")
+            String query,
+            @RequestParam(value = "board_id", defaultValue = "0")
+            Long boardId,
+            @RequestParam(value = "criteria")
+                    String criteria,
+            Model model
+    ) {
+        model.addAttribute("query", query);
+        model.addAttribute("boardId", boardId);
+        if (!boardId.equals(0L))
+            model.addAttribute("boardName", boardService.readOne(boardId).getName());
+        model.addAttribute("criteria", criteria.equals("title") ? "제목": "내용");
+        model.addAttribute("articles", articleService.search(boardId, criteria, query));
+        return "search";
+    }
+
+    @GetMapping("hashtag")
+    public String hashtag(
+            @RequestParam("tag")
+            String tag,
+            Model model
+    ) {
+        model.addAttribute("tags", tag);
+        model.addAttribute("articles", articleService.byTag(tag));
+        return "tag";
+    }
+
 }
 
 

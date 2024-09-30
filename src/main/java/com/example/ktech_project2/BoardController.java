@@ -29,6 +29,7 @@ public class BoardController {
     @GetMapping
     public String readAll(Model model) {
         List<Article> articles = articleService.readAll();
+        // đảo ngc thứ tự
         Collections.reverse(articles);
 
         model.addAttribute("boards", boardservice.readAll());
